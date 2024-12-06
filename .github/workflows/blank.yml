@@ -21,3 +21,8 @@ jobs:
         run: |
           echo "MY_PAT_TOKEN is set."
         
+
+      - name: Check MY_PAT_TOKEN 
+        run: |
+          curl -H "Authorization: token ${{ secrets.MY_PAT_TOKEN  }}" https://api.github.com/user
+
