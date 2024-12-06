@@ -1,0 +1,23 @@
+name: Demo CI
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Display Hello World
+        run: echo "Hello, World!"
+
+      - name: Check MY_PAT_TOKEN
+        run: |
+          echo "MY_PAT_TOKEN is set."
+        
