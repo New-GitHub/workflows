@@ -1,9 +1,9 @@
-name: Demo CI
+name: Upload Artifact
 
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
@@ -14,16 +14,21 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Display Hello World
-        run: echo "Hello, World!"
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
 
-      - name: Check GITHUB_TOKEN 
+      - name: Install dependencies
         run: |
-          echo "GITHUB_TOKEN is set."
+          npm install
 
-      - name: Check API 
+      - name: Build project
         run: |
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/user
+          npm run build
 
-    permissions:
-      contents: read
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: ./build
