@@ -17,12 +17,12 @@ jobs:
       - name: Display Hello World
         run: echo "Hello, World!"
 
-      - name: Check MY_PAT_TOKEN
+      - name: Check GITHUB_TOKEN 
         run: |
-          echo "MY_PAT_TOKEN is set."
+          echo "GITHUB_TOKEN  is set."
         
 
-      - name: Check MY_PAT_TOKEN 
+      - name: Check Api 
         run: |
-          curl -H "Authorization: token ${{ secrets.MY_PAT_TOKEN  }}" https://api.github.com/user
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN   }}" https://api.github.com/user
 
