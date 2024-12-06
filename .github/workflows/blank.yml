@@ -1,4 +1,4 @@
-name: Upload Artifact
+name: Upload TXT Files to Release
 
 on:
   push:
@@ -7,28 +7,39 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  create-and-upload:
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
+      - name: Create TXT files
         run: |
-          npm install
+          for i in {1..5}; do
+            echo "This is file $i" > file_$i.txt
+          done
 
-      - name: Build project
-        run: |
-          npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
         with:
-          name: my-artifact
-          path: ./build
+          tag_name: v1.0.0
+          release_name: Release v1.0.0
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload TXT files
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.0
+          files: |
+            file_1.txt
+            file_2.txt
+            file_3.txt
+            file_4.txt
+            file_5.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
